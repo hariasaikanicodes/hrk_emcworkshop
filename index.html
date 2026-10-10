@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>0 to Shipped — Resume Parser</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="navbar">
+    <div class="logo">0<span>→</span>Shipped</div>
+    <nav>
+      <a href="#how">How it works</a>
+      <a href="#upload">Try it</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h1>Resume Parser</h1>
+    <p>Upload a PDF resume and instantly see your score, the skills you have, and the ones you're missing.</p>
+    <a href="#upload" class="cta-btn">Get my score</a>
+  </section>
+
+  <section id="upload" class="upload-section">
+    <h2>Upload your resume</h2>
+    <div class="dropzone" id="dropzone">
+      <input type="file" id="file-input" accept="application/pdf" hidden />
+      <p><strong>Drop your PDF here</strong> or <span class="browse">browse files</span></p>
+      <p class="hint">PDF only · max 5MB · parsed in your browser (mock)</p>
+    </div>
+    <p class="file-name" id="file-name"></p>
+    <button class="cta-btn hidden" id="analyze-btn">Analyze resume</button>
+  </section>
+
+  <section class="results hidden" id="results">
+    <h2>Your resume report</h2>
+
+    <div class="score-card">
+      <div class="score-ring" id="score-ring">
+        <span id="score-value">0</span>
+      </div>
+      <div class="score-label">
+        <h3>Resume Score</h3>
+        <p id="score-comment"></p>
+      </div>
+    </div>
+
+    <div class="skills-grid">
+      <div class="skills-card">
+        <h3>✅ Skills present</h3>
+        <ul id="skills-present"></ul>
+      </div>
+      <div class="skills-card">
+        <h3>❌ Skills missing</h3>
+        <ul id="skills-missing"></ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="how" class="how">
+    <h2>How it works</h2>
+    <div class="steps">
+      <div class="step"><span>1</span><p>Upload your resume as a PDF.</p></div>
+      <div class="step"><span>2</span><p>We extract your text and detect skills.</p></div>
+      <div class="step"><span>3</span><p>Get a 0–100 score with present and missing skills.</p></div>
+    </div>
+  </section>
+
+  <footer>
+    <p>0 to Shipped — a mock resume parser. No data leaves your browser.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
