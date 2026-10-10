@@ -1,0 +1,23 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 6%;
+  border-bottom: 1px solid var(--border);
+}
+.logo {
+  font-weight: 700;
+  font-size: 1.25rem;
+}
+.logo span {
+  color: var(--accent-2);
+}
+.navbar nav a {
+  color: var(--muted);
+  text-decoration: none;
+  margin-left: 1.5rem;
+  font-size: 0.95rem;
+}
+.navbar nav a:hover {
+  color: var(--text);
+}

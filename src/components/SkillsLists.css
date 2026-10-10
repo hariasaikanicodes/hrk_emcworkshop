@@ -1,0 +1,35 @@
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+.skills-card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+}
+.skills-card h3 {
+  margin-bottom: 1rem;
+  font-size: 1.05rem;
+}
+.skills-card ul {
+  list-style: none;
+}
+.skills-card li {
+  padding: 0.4rem 0.75rem;
+  margin-bottom: 0.4rem;
+  border-radius: 8px;
+  font-size: 0.95rem;
+}
+.skills-card li.ok {
+  background: rgba(0, 184, 148, 0.15);
+  color: var(--good);
+}
+.skills-card li.miss {
+  background: rgba(225, 112, 85, 0.15);
+  color: var(--bad);
+}
+.skills-card .empty {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
