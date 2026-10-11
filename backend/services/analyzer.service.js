@@ -59,6 +59,7 @@ async function extractResumeText(pdfBuffer) {
     return text
   } catch (error) {
     if (error.statusCode) throw error
+    console.error('PDF text extraction failed:', error.name, error.message)
     throw serviceError('Could not read this PDF. Please upload a valid, unprotected PDF.', 400)
   } finally {
     await parser.destroy()
