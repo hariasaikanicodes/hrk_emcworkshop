@@ -3,8 +3,7 @@ import Results from "./Results"
 import JdInput from "./JdInput"
 import "./UploadSection.css"
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL?.replace(/\/$/, "")
-const API_URL = `${API_BASE_URL || ""}/api/analyze`
+const API_URL = "/api/analyze"
 
 export default function UploadSection() {
   const [file, setFile] = useState(null)
