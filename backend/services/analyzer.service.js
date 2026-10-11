@@ -1,7 +1,11 @@
-import { PDFParse } from 'pdf-parse'
+import { DOMMatrix, ImageData, Path2D } from '@napi-rs/canvas'
 import { getVerdict } from '../utils.js'
 
 const LABD_API_URL = 'https://agent.thedevlabs.io/v1/api/chat'
+
+globalThis.DOMMatrix ??= DOMMatrix
+globalThis.ImageData ??= ImageData
+globalThis.Path2D ??= Path2D
 
 function serviceError(message, statusCode) {
   return Object.assign(new Error(message), { statusCode })
@@ -41,6 +45,7 @@ function parseAnalysis(content) {
 }
 
 async function extractResumeText(pdfBuffer) {
+  const { PDFParse } = await import('pdf-parse')
   const parser = new PDFParse({ data: new Uint8Array(pdfBuffer) })
 
   try {
