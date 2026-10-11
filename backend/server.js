@@ -9,6 +9,10 @@ const app = express()
 app.use(cors())
 app.use(express.json())
 
+app.get('/', (_req, res) => {
+  res.json({ status: 'ok', message: 'Resume Parser API' })
+})
+
 // All API routes live under /api — see routes/analysis.routes.js
 app.use('/api', analysisRoutes)
 
