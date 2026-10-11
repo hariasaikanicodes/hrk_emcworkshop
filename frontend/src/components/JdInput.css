@@ -1,0 +1,27 @@
+.jd-input {
+  margin-top: 1.5rem;
+  text-align: left;
+}
+.jd-input label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+.jd-input textarea {
+  width: 100%;
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.9rem 1.1rem;
+  font: inherit;
+  resize: vertical;
+  min-height: 140px;
+}
+.jd-input textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+.jd-input .hint {
+  margin-top: 0.5rem;
+}

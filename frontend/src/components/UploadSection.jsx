@@ -1,56 +1,66 @@
 import { useRef, useState } from "react"
 import Results from "./Results"
-import { analyzeResume } from "../lib/analyzeResume"
+import JdInput from "./JdInput"
 import "./UploadSection.css"
 
-// Mock delay so the "Parsing…" state is visible.
-const PARSE_DELAY_MS = 1200
+const API_URL = "/api/analyze"
 
 export default function UploadSection() {
   const [file, setFile] = useState(null)
-  const [notice, setNotice] = useState("")
-  const [analyzing, setAnalyzing] = useState(false)
+  const [jd, setJd] = useState("")
+  const [error, setError] = useState("")
+  const [loading, setLoading] = useState(false)
   const [result, setResult] = useState(null)
   const [dragOver, setDragOver] = useState(false)
   const inputRef = useRef(null)
-  const timerRef = useRef(null)
-
-  function clearPendingParse() {
-    if (timerRef.current) {
-      clearTimeout(timerRef.current)
-      timerRef.current = null
-    }
-  }
 
   function handleFile(file) {
-    clearPendingParse()
-    setAnalyzing(false)
-
     if (!file) return
     if (file.type !== "application/pdf") {
       setFile(null)
       setResult(null)
-      setNotice("⚠ Please upload a PDF file.")
+      setError("Please upload a PDF file.")
+      return
+    }
+    setError("")
+    setResult(null)
+    setFile(file)
+  }
+
+  async function analyze() {
+    if (!file || !jd.trim()) {
+      setError("Add your resume PDF and a job description first.")
       return
     }
 
-    setNotice("")
-    setResult(null)
-    setFile(file)
-    setAnalyzing(true)
-    timerRef.current = setTimeout(() => {
-      timerRef.current = null
-      setAnalyzing(false)
-      setResult(analyzeResume(file))
-    }, PARSE_DELAY_MS)
+    const formData = new FormData()
+    formData.append("resume", file)
+    formData.append("jd", jd)
+
+    try {
+      setLoading(true)
+      setError("")
+      const res = await fetch(API_URL, { method: "POST", body: formData })
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error || "Something went wrong")
+      setResult(data)
+    } catch (err) {
+      setError(
+        err.message === "Failed to fetch"
+          ? "Can't reach the server — is the backend running on port 4000?"
+          : err.message
+      )
+    } finally {
+      setLoading(false)
+    }
   }
 
   function reset() {
-    clearPendingParse()
     setFile(null)
+    setJd("")
     setResult(null)
-    setAnalyzing(false)
-    setNotice("")
+    setError("")
+    if (inputRef.current) inputRef.current.value = ""
   }
 
   return (
@@ -73,23 +83,16 @@ export default function UploadSection() {
       >
         {file ? (
           <div className="dz-file">
-            <span className="file-chip">📄 {file.name}</span>
+            <span className="file-chip">{file.name}</span>
             <p className="hint">
-              {(file.size / 1024).toFixed(0)} KB · mock parse, nothing leaves
-              your browser
+              {(file.size / 1024).toFixed(0)} KB · analyzed on the server, nothing is stored
             </p>
-            {analyzing && (
-              <p className="analyzing">
-                <span className="spinner" /> Parsing resume…
-              </p>
-            )}
           </div>
         ) : (
           <div className="dz-empty">
             <div className="dz-icon">📄</div>
             <p className="dz-title">
-              <strong>Drop your PDF here</strong> or{" "}
-              <span className="browse">browse files</span>
+              <strong>Drop your PDF here</strong> or <span className="browse">browse files</span>
             </p>
             <p className="hint">PDF only · max 5 MB</p>
           </div>
@@ -107,9 +110,24 @@ export default function UploadSection() {
         }}
       />
 
-      {notice && <p className="notice">{notice}</p>}
+      <JdInput jd={jd} onChange={setJd} />
+
+      {error && <p className="notice">{error}</p>}
+
+      <div className="upload-actions">
+        <button className="cta-btn" onClick={analyze} disabled={loading || !file || !jd.trim()}>
+          {loading ? "Analyzing…" : "Analyze resume"}
+        </button>
+      </div>
+
+      {loading && (
+        <p className="analyzing">
+          <span className="spinner" /> Analyzing resume…
+        </p>
+      )}
 
       {result && <Results result={result} onReset={reset} />}
     </section>
   )
 }
+

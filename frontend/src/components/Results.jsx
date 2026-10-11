@@ -14,10 +14,10 @@ export default function Results({ result, onReset }) {
   return (
     <div className="results" ref={ref}>
       <h2 className="section-title">Your resume report</h2>
-      <p className="results-file">Parsed: {result.fileName} (mock)</p>
+      <p className="results-file">Analyzed: {result.fileName}</p>
 
       <ScoreCard score={result.score} verdict={result.verdict} />
-      <SkillsLists present={result.present} missing={result.missing} />
+      <SkillsLists present={result.skillsPresent} missing={result.skillsMissing} />
 
       <div className="result-actions">
         <button className="cta-btn secondary" onClick={onReset}>
