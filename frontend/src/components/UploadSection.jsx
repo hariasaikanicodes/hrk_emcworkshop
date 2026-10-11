@@ -41,7 +41,17 @@ export default function UploadSection() {
       setLoading(true)
       setError("")
       const res = await fetch(API_URL, { method: "POST", body: formData })
-      const data = await res.json()
+      const responseText = await res.text()
+      let data
+      try {
+        data = JSON.parse(responseText)
+      } catch {
+        throw new Error(
+          res.ok
+            ? "The server returned an unreadable response. Please try again."
+            : `The server is unavailable (HTTP ${res.status}). Check the backend deployment logs.`,
+        )
+      }
       if (!res.ok) throw new Error(data.error || "Something went wrong")
       setResult(data)
     } catch (err) {
