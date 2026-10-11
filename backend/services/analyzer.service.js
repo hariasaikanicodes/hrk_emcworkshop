@@ -45,7 +45,11 @@ function parseAnalysis(content) {
 }
 
 async function extractResumeText(pdfBuffer) {
-  const { PDFParse } = await import('pdf-parse')
+  const [{ PDFParse }, { getData }] = await Promise.all([
+    import('pdf-parse'),
+    import('pdf-parse/worker'),
+  ])
+  PDFParse.setWorker(getData())
   const parser = new PDFParse({ data: new Uint8Array(pdfBuffer) })
 
   try {
