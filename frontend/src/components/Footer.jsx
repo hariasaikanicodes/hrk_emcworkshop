@@ -3,7 +3,10 @@ import "./Footer.css"
 export default function Footer() {
   return (
     <footer>
-      <p>0 to Shipped — a mock resume parser. No data leaves your browser.</p>
+      <p>
+        0 to Shipped — Resume Parser. Resume text is sent to Labd for analysis; results are saved,
+        but the original PDF is not.
+      </p>
     </footer>
   )
 }

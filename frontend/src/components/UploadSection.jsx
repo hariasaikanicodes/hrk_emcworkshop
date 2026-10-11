@@ -47,7 +47,7 @@ export default function UploadSection() {
     } catch (err) {
       setError(
         err.message === "Failed to fetch"
-          ? "Can't reach the server — is the backend running on port 4000?"
+          ? "Can't reach the analysis server. Please try again in a moment."
           : err.message
       )
     } finally {
@@ -85,7 +85,7 @@ export default function UploadSection() {
           <div className="dz-file">
             <span className="file-chip">{file.name}</span>
             <p className="hint">
-              {(file.size / 1024).toFixed(0)} KB · analyzed on the server, nothing is stored
+              {(file.size / 1024).toFixed(0)} KB · resume text is sent to Labd for analysis; the original PDF is not stored
             </p>
           </div>
         ) : (

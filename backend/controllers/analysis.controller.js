@@ -22,7 +22,12 @@ export async function analyze(req, res) {
     res.json(result)
   } catch (err) {
     console.error(err)
-    res.status(500).json({ error: 'Something went wrong while analyzing the resume' })
+    const statusCode = Number.isInteger(err?.statusCode) ? err.statusCode : 500
+    const message =
+      statusCode === 500 ? 'Something went wrong while analyzing the resume' : err.message
+    res
+      .status(statusCode)
+      .json({ error: message })
   }
 }
 
