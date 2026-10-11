@@ -24,6 +24,7 @@ export async function connectDB() {
   if (!connectionPromise) {
     connectionPromise = mongoose.connect(uri).catch((error) => {
       connectionPromise = undefined
+      console.error('MongoDB connection failed:', error.name, error.message)
       throw Object.assign(
         new Error(
           'Could not connect to the database. Check MONGODB_URI and MongoDB network access.',
